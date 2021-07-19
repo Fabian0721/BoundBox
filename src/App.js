@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import React from 'react';
+import { render } from 'react-dom';
+import { Stage, Layer, Line, Text } from 'react-konva';
 
-function App() {
+import Button from './components/Button/Button'
+import Draw from './components/Draw/Draw'
+
+{/*import {images} from './mockimages/Images/Images'*/}
+
+export default function App() {
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Draw></Draw>
     </div>
   );
 }
-
-export default App;
