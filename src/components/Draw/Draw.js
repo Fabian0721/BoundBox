@@ -55,12 +55,14 @@ function Draw() {
 
   const [index, setIndex] = useState(0);
 
+
   function next(){
     setIndex(index + 1)
   }
   function prev(){
     setIndex(index - 1)
   }
+
 
   const ShowedImage = () => {
   const [image] = useImage(images[index]);
@@ -70,11 +72,8 @@ function Draw() {
   return (
     <div>
 
-    <Button func = "prev" index={index} setIndex={setIndex} name = "PREV" />
-    <Button func ="next" index={index} setIndex={setIndex} name ="NEXT"/>
-
-    <button onClick={prev}>PREV</button>
-    <button onClick={next}>NEXT</button>
+    <Button func = {prev} name = "PREV" />
+    <Button func = {next} name ="NEXT"/>
 
 
       <Stage
