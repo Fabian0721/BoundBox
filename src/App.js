@@ -5,11 +5,14 @@ import { Stage, Layer, Line, Text } from 'react-konva';
 
 import Button from './components/Button/Button';
 import Draw from './components/Draw/Draw';
+import { Image } from 'react-konva';
 
 import shortid from 'shortid';
 import Rectangle from './components/Rectangle';
 import RectTransformer from './components/RectTransformer';
 import AnnotationImage from './components/Images';
+import './App.css';
+import useImage from 'use-image';
 
 {/*
 export default function App() {
@@ -18,9 +21,11 @@ export default function App() {
     <div className="App">
       <Draw></Draw>
     </div>
+<AnnotationImage />
   );
 }
 */}
+
 
 
 class App extends React.Component {
@@ -32,6 +37,7 @@ class App extends React.Component {
     mouseDraw: false,
     newRectX: 0,
     newRectY: 0,
+    icount: 3,
   };
 
   componentDidMount() {
@@ -40,7 +46,6 @@ class App extends React.Component {
 
   handleStageMouseDown = (event) => {
     const { rectangles } = this.state;
-    // clicked on stage - clear selection or ready to generate new rectangle
     if (event.target.className === 'Image') {
       const stage = event.target.getStage();
       const mousePos = stage.getPointerPosition();
@@ -52,13 +57,12 @@ class App extends React.Component {
       });
       return;
     }
-    // clicked on transformer - do nothing
+
     const clickedOnTransformer = event.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
 
-    // find clicked rect by its name
     const name = event.target.name();
     const rect = rectangles.find(r => r.name === name);
     if (rect) {
@@ -115,6 +119,47 @@ class App extends React.Component {
   };
 
 
+
+  counter = true;
+
+  change = () => {
+
+    if (this.counter == true) {
+      alert("Attention: In this environment I have tried to implement my own method.")
+      this.counter = false;
+      this.forceUpdate();
+    } else {
+      alert("For full functionality reload the page")
+      this.counter = true;
+      this.forceUpdate();
+    }
+
+  };
+
+  next = () => {
+    this.setState(
+      prevState => ({ icount: prevState.icount + 1 })
+    )
+    alert("Status of the state variable: " + this.state.icount + " | I have no idea why the picture is only correct when manually adjusting the variables in the code or switching back and forth to the other mode. Apparently it is not rendering here. Even with a forceUpdate command, the image is not updated, even though react should do it on its own.")
+  }
+
+  prev = () => {
+    this.setState(
+      prevState => ({ icount: prevState.icount - 1 })
+    )
+    alert("Status of the state variable: " + this.state.icount + " | I have no idea why the picture is only correct when manually adjusting the variables in the code or switching back and forth to the other mode. Apparently it is not rendering here. Even with a forceUpdate command, the image is not updated, even though react should do it on its own.")
+  }
+
+  save = () => {
+    localStorage.setItem('BoundingBox', JSON.stringify(this.state));
+    alert("JSON file of the bounding box is created")
+  }
+
+
+
+
+
+
   render() {
     const {
       state: { rectangles, selectedShapeName, mouseDown },
@@ -122,12 +167,33 @@ class App extends React.Component {
       handleNewRectChange,
       handleRectChange,
       handleStageMouseUp,
+      counter,
+      icount,
     } = this;
     return (
       <div id="app">
-      <Button name = "PREV" />
-      <Button name = "NEXT" />
-      <Button name = "SAVE" />
+
+      <Button func = {this.prev} name = "<" />
+      <Button func = {this.next} name = ">" />
+      <Button func = {this.save} name = "SAVE" />
+
+
+
+      <label class="switch">
+        <input type="checkbox" onClick={this.change}></input>
+        <span class="slider round"></span>
+      </label>
+
+
+
+
+      {this.counter == false &&
+             <Draw></Draw>
+      }
+
+
+      {this.counter == true &&
+
 
         <Stage
           ref={(node) => {
@@ -143,6 +209,8 @@ class App extends React.Component {
           onMouseUp={mouseDown && handleStageMouseUp}
           onTouchEnd={mouseDown && handleStageMouseUp}
         >
+
+
           <Layer>
             {rectangles.map((rect, i) => (
               <Rectangle
@@ -161,10 +229,13 @@ class App extends React.Component {
               this.img = node;
             }}
           >
-            <AnnotationImage />
+          <AnnotationImage index={this.state.icount}/>
+
           </Layer>
 
         </Stage>
+
+      }
 
       </div>
     );
