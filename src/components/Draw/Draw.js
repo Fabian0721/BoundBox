@@ -72,8 +72,9 @@ function Draw() {
   return (
     <div>
 
-    <Button func = {prev} name = "PREV" />
-    <Button func = {next} name ="NEXT"/>
+    <Button func = {prev} name = "<" />
+    <Button func = {next} name =">"/>
+      <Button name = "SAVE" />
 
 
       <Stage
