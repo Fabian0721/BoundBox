@@ -8,12 +8,21 @@ class AnnotationImage extends React.Component {
 
   componentDidMount() {
     const image = new window.Image();
-    image.src = 'http://images.cocodataset.org/train2017/000000032907.jpg';
+    const images = [
+      "http://images.cocodataset.org/train2017/000000032907.jpg",
+      "http://images.cocodataset.org/train2017/000000549399.jpg",
+      "http://images.cocodataset.org/train2017/000000510755.jpg",
+      "http://images.cocodataset.org/train2017/000000111076.jpg",
+      "http://images.cocodataset.org/train2017/000000455483.jpg"
+    ]
+
+    image.src =  images[this.props.index];
     image.onload = () => {
       this.setState({
         image,
       });
     };
+
   }
 
   render() {
@@ -26,6 +35,7 @@ class AnnotationImage extends React.Component {
         width={994}
         image={image}
       />
+
     );
   }
 }
